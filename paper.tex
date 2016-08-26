@@ -18,11 +18,40 @@
 
 \documentclass[runningheads,a4paper]{llncs}
 
-\usepackage{amssymb}
 \setcounter{tocdepth}{3}
 \usepackage{graphicx}
-
 \usepackage{url}
+\usepackage{xspace}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\usepackage{subfigure}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{supertabular}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{longtable}
+\usepackage{lscape}
+\usepackage{enumitem}
+\usepackage{paralist}
+\usepackage{color}
+
+\newcommand{\hide}[1]{}
+\newcommand{\fig}[1]{Figure~\ref{fig:#1}}
+\newcommand{\tabl}[1]{Table~\ref{tab:#1}}
+\newcommand{\s}[1]{Section~\ref{sec:#1}}
+\newcommand{\sub}[1]{Section~\ref{subsec:#1}}
+\newcommand{\code}[1]{Listing~\ref{code:#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{L}[1]{>{\arraybackslash}m{#1}}
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\newcommand{\fakeparagraph}[1]{\smallskip\textit{#1.}}
+
+
 \urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas, frank.holzwarth,|
 \urldef{\mailsb}\path|anna.kramer, leonie.kunz, christine.reiss, nicole.sator,|
 \urldef{\mailsc}\path|erika.siebert-cole, peter.strasser, lncs}@springer.com|    
