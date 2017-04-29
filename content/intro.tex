@@ -1,68 +1,220 @@
 % !TEX root = ../paper.tex
+\section{Introduction}\label{sec:intro}
 
-\section{Introduction}
+% 1.1.	Research on combining SP and SW , i.e. SR/RSP, is giving promising results:
+% 1.1.1.	foundational research, i.e. algorithms,
+% 1.1.2.	applied research, i.e. system implementation 
+% 1.1.3.	and empirical research, i.e. benchmarking, experimental workflows, design of experiments
 
-You are strongly encouraged to use \LaTeXe{} for the
-preparation of your camera-ready manuscript together with the
-corresponding Springer class file \verb+llncs.cls+. Only if you use
-\LaTeXe{} can hyperlinks be generated in the online version
-of your manuscript.
+In the recent years, the Semantic Web 
+community showed a constantly growing 
+interest about streaming data.
+Stream Reasoning (SR) and 
+RDF Stream Processing (RSP) 
+are active research fields.
+And, their community investigates 
+foundational problems 
+and algorithms, designs
+systems architectures and 
+implements working prototypes.
+More recently, it focused on empirical research, 
+i.e. benchmarks, work-flows and methodologies 
+to evaluate the prototypes. 
+This work is related to empirical research 
+and the systems it involves, 
+since one of the major obstacles observed 
+by this community regards the 
+system evaluation.   
+ 
+The SR/RSP state of the art contains requirements 
+and benchmarks, i.e. ontologies, 
+streams / datasets and queries, 
+to evaluate the RSP engine performance. 
+However, regardless the adoption of existing
+benchmarks, the comparison 
+between engines is still not systematic. 
+Indeed, they used specific configurations, 
+most of which are hard to repeat.   
+ 
+We can find the reasons behind this situation 
+observing RSP/SR benchmark heterogeneity.
+Each of them proposes a different perspective
+on RSP engine performance analysis, 
+since it addresses those 
+challenges that 
+SR/RSP community was exploring 
+at the time they were designed.   
+ 
+SRBench~\cite{srbench} 
+focused only on query language
+feature coverage.
+LSBench~\cite{lsbench} firstly, attempted
+of measuring performance. CityBench 
+firstly, tried to make evaluation systematic
+by the means of a configurable test driver.
+CSRBench~\cite{csrbench} 
+and YABench~\cite{yabench} closely observed 
+the problem of correctness of query results.
 
-The \LaTeX{} source of this instruction file for \LaTeX{} users may be
-used as a template. This is
-located in the ``authors'' subdirectory in
-\url{ftp://ftp.springer.de/pub/tex/latex/llncs/latex2e/instruct/} and
-entitled \texttt{typeinst.tex}. There is a separate package for Word 
-users. Kindly send the final and checked source
-and PDF files of your paper to the Contact Volume Editor. This is
-usually one of the organizers of the conference. You should make sure
-that the \LaTeX{} and the PDF files are identical and correct and that
-only one version of your paper is sent. It is not possible to update
-files at a later stage. Please note that we do not need the printed
-paper.
+Benchmarks' heterogeneity forced
+researchers to spend hours setting up 
+ad-hoc configuration 
+to evaluate their prototypes.
+Considering that engines have various 
+interfaces, and benchmarks used no standard way 
+to provide RDF Streams, this causes 
+many architectural bias 
+and unmeasurable experimental errors.
 
-We would like to draw your attention to the fact that it is not possible
-to modify a paper in any way, once it has been published. This applies
-to both the printed book and the online version of the publication.
-Every detail, including the order of the names of the authors, should
-be checked before the paper is sent to the Volume Editors.
+We did a first step towards a solution for 
+this problem in Heaven~\cite{heaven}.
+We proposed a requirement analysis and an
+architecture for a 
+test-bed infrastructure that satisfies them.
+Heaven also comprises an open-source
+proof-of-concept that 
+proved the approach feasibility, but
+whose scope was limited.
+Therefore, in this paper, we propose \rsplab, 
+a resource for the SR/RSP community 
+that will foster empirical research. 
 
-\subsection{Checking the PDF File}
+\rsplab contributes to the state of the art 
+with a programmatic environment that can 
+deploy RDF Streams and RSP engines
+using virtual machines. 
+\rsplab interacts with deployed modules 
+using, respectively,
+the RSP Services~\cite{rspservices} 
+for the engines,
+and TripleWave~\cite{triplewave} 
+interfaces for the RDF Streams. 
+\rsplab monitors the performance 
+of any deployed module, 
+because it comprises a distributed 
+continuous monitoring system.
 
-Kindly assure that the Contact Volume Editor is given the name and email
-address of the contact author for your paper. The Contact Volume Editor
-uses these details to compile a list for our production department at
-SPS in India. Once the files have been worked upon, SPS sends a copy of
-the final pdf of each paper to its contact author. The contact author is
-asked to check through the final pdf to make sure that no errors have
-crept in during the transfer or preparation of the files. This should
-not be seen as an opportunity to update or copyedit the papers, which is
-not possible due to time constraints. Only errors introduced during the
-preparation of the files will be corrected.
+Moreover, \rsplab currently 
+includes: 
+\begin{inparaenum}[(i)] 
+\item LSBench and CityBench benchmark data and queries.
+\item C-SPARQL engine~\cite{csparql} and CQELS~\cite{cqels}; 
+\item a predefined set of Key Performance Indicator: 
+\begin{inparaenum}[(a)]  
+\item for each virtual machine it can monitor in real time
+memory consumption, Network, IO and CPU load; 
+\item for each RSP engine under analysis it can monitor post-hoc
+query's results correctness and max throughput.
+\end{inparaenum}
+\end{inparaenum}
+ 
 
-This round of checking takes place about two weeks after the files have
-been sent to the Editorial by the Contact Volume Editor, i.e., roughly
-seven weeks before the start of the conference for conference
-proceedings, or seven weeks before the volume leaves the printer's, for
-post-proceedings. If SPS does not receive a reply from a particular
-contact author, within the timeframe given, then it is presumed that the
-author has found no errors in the paper. The tight publication schedule
-of LNCS does not allow SPS to send reminders or search for alternative
-email addresses on the Internet.
+The reminder of this paper is organized as follows. 
+\s{sota} summarizes the state of the art of RSP and SR.
+\s{rsplab} presents \rsplab requirements and architecture
+and give some details about the current implementation.
+\s{eval} shows \rsplab usability designing two experiments
+using the integrated benchmarks. It presents a possible
+experimental workflow and analysis examples.
+\s{related} compares \rsplab with similar solutions.
+\s{conclusion} concludes the paper and presents
+\rsplab's road-map, its maintenance plan
+and the future work it enables. 
 
-In some cases, it is the Contact Volume Editor that checks all the final
-pdfs. In such cases, the authors are not involved in the checking phase.
+ % 1.3.	Reminder
 
-\subsection{Additional Information Required by the Volume Editor}
+% 1.3.1.	Background/Sota
+% 1.3.2.	\rsplab 
+% 1.3.2.1.	Architecture
+% 1.3.2.2.	Implementation
+% 1.3.2.3.	Deployment
+% 1.3.3.	RSP Lab In-Use
+% 1.3.3.1.	Citybench and LSBench
+% 1.3.4.	Related Work
+% 1.3.4.1.	OLTP
+% 1.3.4.2.	LodLab
+% 1.3.4.3.	Heaven
+% 1.3.4.4.	Citybench TestBed
+% Conclusion & FW
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+% 1.2.4.	
 
-If you have more than one surname, please make sure that the Volume Editor
-knows how you are to be listed in the author index.
+% 1.2.5.	
+% 1.2.5.4.	Reporting as LinkedData
+% 1.2.5.5.	Analysis can follow DoE
+% 1.2.6.	offers a programmatic environment that allows: 
+% 1.2.6.1.	to interact with the platform and deploy engine and streams
+% 1.2.6.2.	to design experiments using benchmarks and engines
+% 1.2.6.3.	to execute the experiment and  analyze  the performance metrics and the results collected during the execution
 
-\subsection{Copyright Forms}
+% 1.2.	On of the major obstacle in SW and thus in RSP/SR comes from empirical research.
+% 1.3.	The state-of-the-art benchmarks (Table 1) provide ontologies, queries and datasets/streams, but the present some drawbacks that save the comparison of existing systems to be systematic:
+% 1.3.1.	Researchers have hard times to set up benchmarking environment on their own. [lodlab]
+% 1.3.1.1.	ad-hoc configurations and environments
+% 1.3.1.1.1.	various architectural bias
+% 1.3.1.1.2.	unmeasurable experimental error
+% 1.3.1.2.	No standard communication with engines
+% 1.3.1.3.	test driver are not flexibles, ad hoc implementation, non reproducible
+% 1.3.1.3.1.	LSBench, Citybench, Yabech -> Test driver
+% 1.3.1.3.2.	Heaven, attempt to make the research systematics but very simplified on the engine
 
-The copyright form may be downloaded from the ``For Authors"
-(Information for LNCS Authors) section of the LNCS Website:
-\texttt{www.springer.com/lncs}. Please send your signed copyright form
-to the Contact Volume Editor, either as a scanned pdf or by fax or by
-courier. One author may sign on behalf of all of the other authors of a
-particular paper. Digital signatures are acceptable.
+% 1.1.	The scope of this paper is building an environment that supports a systematic exploration of the solution space by simplifying RSP engine evaluation, thus their development (research), 
+
+% 1.2.	In this paper, we propose \rsplab, i.e. a testbed to evaluate RSP engines that 
+% 1.2.1.	ensures repeatability, reproducibility and comparability in line with what we did in Heaven
+% 1.2.2.	integrates existing benchmarks using TripleWave,, currently LSBench and CityBench; 
+% 1.2.3.	integrates any RSP engines that supports the RSP Services interface, currently C-SPARQL engine and CQELS;
+% 1.2.4.	Distributed Continuous Monitoring Component for each \rsplab component
+
+% 1.2.5.	sets a KPI set for each RSP Component
+% 1.2.5.1.	enables continuous monitoring at vm level (Docker, cAdvisor, InfluxDB): 
+% 1.2.5.2.	 	Memory Consumption and CPU load (real-time and post hoc)
+% 1.2.5.3.	we consider for any RSP engine
+% 1.2.5.3.1.	Correctness (Post Hoc)
+% 1.2.5.3.2.	oracle implementation
+% 1.2.5.3.3.	 Max Throughput (Post Hoc)
+% 1.2.5.4.	Reporting as LinkedData
+% 1.2.5.5.	Analysis can follow DoE
+% 1.2.6.	offers a programmatic environment that allows: 
+% 1.2.6.1.	to interact with the platform and deploy engine and streams
+% 1.2.6.2.	to design experiments using benchmarks and engines
+% 1.2.6.3.	to execute the experiment and  analyze  the performance metrics and the results collected during the execution
+% 1.3.	Reminder
+% 1.3.1.	Background/Sota
+% 1.3.2.	\rsplab 
+% 1.3.2.1.	Architecture
+% 1.3.2.2.	Implementation
+% 1.3.2.3.	Deployment
+% 1.3.3.	RSP Lab In-Use
+% 1.3.3.1.	Citybench and LSBench
+% 1.3.4.	Related Work
+% 1.3.4.1.	OLTP
+% 1.3.4.2.	LodLab
+% 1.3.4.3.	Heaven
+% 1.3.4.4.	Citybench TestBed
+% Conclusion & FW
